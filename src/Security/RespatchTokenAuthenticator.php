@@ -31,12 +31,12 @@ class RespatchTokenAuthenticator extends AbstractAuthenticator
 	public function supports(Request $request): ?bool
 	{
 		// Spustí sa to len pre naše API endpointy
-		return str_starts_with($request->getPathInfo(), '/_respatch/api');
+		return $request->headers->has('X-Respatch-Token') || $request->query->has('x-respatch-token');
 	}
 
 	public function authenticate(Request $request): Passport
 	{
-		$headerToken = $request->headers->get('X-Respatch-Token');
+		$headerToken = $request->headers->get('X-Respatch-Token')??$request->query->get('x-respatch-token');
 
 		if (empty($this->configuredToken)) {
 			throw new CustomUserMessageAuthenticationException('Respatch token is not configured on the server.');
