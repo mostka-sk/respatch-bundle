@@ -4,19 +4,15 @@ declare(strict_types=1);
 
 namespace MostkaSk\RespatchBundle\Controller;
 
-use App\Entity\ProcessedMessage;
 use DateTimeInterface;
-use MostkaSk\RespatchBundle\Attribute\ResponseSchema;
 use MostkaSk\RespatchBundle\Helper\ApiHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Messenger\Message\RedispatchMessage;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\SentToFailureTransportStamp;
-use Symfony\Component\Messenger\Stamp\TransportNamesStamp;
-use Symfony\Component\Scheduler\Generator\MessageContext;
 use Zenstruck\Bytes;
+use Zenstruck\Messenger\Monitor\History\Model\ProcessedMessage;
 use Zenstruck\Messenger\Monitor\History\Period;
 use Zenstruck\Messenger\Monitor\History\Specification;
 use Zenstruck\Messenger\Monitor\Stamp\TagStamp;
@@ -26,7 +22,7 @@ use Zenstruck\Messenger\Monitor\Worker\WorkerInfo;
 
 class ApiController extends AbstractController {
 
-	const int MAX_LIMIT_PER_PAGE = 50;
+	const MAX_LIMIT_PER_PAGE = 50;
 
 
 	public function status(): JsonResponse {
